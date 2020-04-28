@@ -7,15 +7,19 @@ import AppointmentsRespository from '../repositories/AppointmentsRepository';
 const appointmentsRouter = Router();
 const appointmentsRespository = new AppointmentsRespository();
 
-const appointments: Appointment[] = [];
+appointmentsRouter.get('/', (request, response) => {
+  const appointments = appointmentsRespository.all();
+
+  return response.json(appointments);
+});
 
 appointmentsRouter.post('/', (request, response) => {
   const { provider, date } = request.body;
 
   const parsedDate = startOfHour(parseISO(date));
 
-  const findAppointmentInSameDate = appointments.find(appointment =>
-    isEqual(parsedDate, appointment.date),
+  const findAppointmentInSameDate = appointmentsRespository.findByDate(
+    parsedDate,
   );
 
   if (findAppointmentInSameDate) {
@@ -24,7 +28,10 @@ appointmentsRouter.post('/', (request, response) => {
       .json({ message: 'This appointment is alredy booked' });
   }
 
-  const appointment = appointmentsRespository.create(provider, parsedDate);
+  const appointment = appointmentsRespository.create({
+    provider,
+    date: parsedDate,
+  });
 
   return response.json(appointment);
 });
