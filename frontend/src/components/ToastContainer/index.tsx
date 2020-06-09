@@ -1,46 +1,39 @@
-import React from 'react';
-import {FiAlertCircle, FiXCircle } from 'react-icons/fi';
+import React, { useCallback } from 'react';
+import { FiAlertCircle, FiXCircle } from 'react-icons/fi';
 
-import {Container, Toast } from './styles';
+import { ToastMessage, useToast } from '../../hooks/toast';
+import { Container, Toast } from './styles';
 
-const ToastContainer: React.FC =() => {
+interface ToastContainerProps {
+  messages: ToastMessage[];
+}
+
+const ToastContainer: React.FC<ToastContainerProps> = ({ messages }) => {
+  const { removeToast } = useToast();
+
+  const handleRemoveToast = useCallback((id: string) => {
+    removeToast(id);
+  }, []);
   return (
-    <Container >
-      <Toast hasDescription>
-        <FiAlertCircle size={20} />
-        <div>
-          <strong>Aconteceu um error</strong>
-          <p>Não foi possível fazer login na aplicação</p>
-        </div>
-
-        <button type="button">
-          <FiXCircle size={18} />
-        </button>
-      </Toast>
-      <Toast type="error" hasDescription={false}>
-        <FiAlertCircle size={20} />
-        <div>
-          <strong>Aconteceu um error</strong>
-
-        </div>
-
-        <button type="button">
-          <FiXCircle size={18} />
-        </button>
-      </Toast>
-      <Toast type="success" hasDescription>
-        <FiAlertCircle size={20} />
-        <div>
-          <strong>Aconteceu um error</strong>
-          <p>Não foi possível fazer login na aplicação</p>
-        </div>
-
-        <button type="button">
-          <FiXCircle size={18} />
-        </button>
-      </Toast>
-
+    <Container>
+      {messages.map(message => (
+        <Toast
+          key={message.id}
+          type={message.type}
+          hasDescription={!!message.description}
+        >
+          <FiAlertCircle size={20} />
+          <div>
+            <strong>{message.title}</strong>
+            {message.description && <p> {message.description} </p>}
+          </div>
+          <button onClick={() => handleRemoveToast(message.id)} type="button">
+            <FiXCircle size={18} />
+          </button>
+        </Toast>
+      ))}
     </Container>
-    )};
+  );
+};
 
 export default ToastContainer;
