@@ -35,7 +35,7 @@ export const Container = styled(animated.div)<ContainerProps>`
     margin-top: 16px;
   }
 
-  ${props => toastTypeVatiations['info']}
+  ${props => toastTypeVatiations[props.type||'info']}
 
   > svg {
     margin: 4px 12px 0 0;
