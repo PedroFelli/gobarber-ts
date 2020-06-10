@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "axios": "^0.19.2"
+    "axios": "^0.19.2",
+    "react-spring": "^8.0.27"
   }
 }

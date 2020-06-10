@@ -28,6 +28,7 @@ const ToastProvider: React.FC = ({ children }) => {
       const toast = { id, type, title, description };
 
       setMessages(state => [...state, toast]);
+
     },
     [],
   );
