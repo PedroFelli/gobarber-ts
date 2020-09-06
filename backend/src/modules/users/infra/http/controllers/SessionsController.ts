@@ -15,8 +15,6 @@ export default class SessionsController {
       password,
     });
 
-    console.log(process.env.APP_API_URL);
-
     return response.json({ user: classToClass(user), token });
   }
 }

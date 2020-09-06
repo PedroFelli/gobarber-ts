@@ -1,5 +1,5 @@
 import React, { useRef, useCallback } from 'react';
-import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
+import { FiLock } from 'react-icons/fi';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
 import * as Yup from 'yup';
@@ -76,7 +76,7 @@ const ResetPassword: React.FC = () => {
         });
       }
     },
-    [addToast],
+    [addToast,  location.search, history],
   );
 
   return (
